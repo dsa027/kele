@@ -19,8 +19,19 @@ include HTTParty
   def get_me
     response = self.class.get(@base_uri + "/users/me", headers: {"authorization": @auth_token}).body
     @me = JSON.parse(response)
+  end
+  
+  def get_mentor_availability(id)
+    response = self.class.get(@base_uri + "/mentors/#{id}/student_availability", headers: {"authorization": @auth_token}).body
+    @mentor_avail = JSON.parse(response).to_a
 
-    puts_kv(@me)    
+    puts_v(@mentor_avail)
+  end
+  
+  def puts_v(array) 
+    array.each do |v|
+      puts "@@@@@@@@@@@@@@@@@@@ #{v}"
+    end
   end
   
   def puts_kv(hash)
