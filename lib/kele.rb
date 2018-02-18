@@ -15,4 +15,22 @@ include HTTParty
       puts "Invalid email or password: Auth Token not returned."
     end
   end
+  
+  def get_me
+    response = self.class.get(@base_uri + "/users/me", headers: {"authorization": @auth_token}).body
+    @me = JSON.parse(response)
+
+    puts_kv(@me)    
+  end
+  
+  def puts_kv(hash)
+    hash.each do |k, v| 
+      if v.is_a?(Hash)
+        puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> #{k} = "
+        puts_kv(v)
+      else
+        puts ">>>>>>>>>>>>>>>>>>> #{k} = #{v}"
+      end
+    end
+  end
 end
