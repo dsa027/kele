@@ -1,7 +1,9 @@
 require 'httparty'
+require './lib/roadmap'
 
 class Kele
-include HTTParty
+  include HTTParty
+  include Roadmap
 
   def initialize(email, password)
     begin
@@ -21,16 +23,19 @@ include HTTParty
     @me = JSON.parse(response)
   end
   
-  def get_mentor_availability(id)
+  def get_mentor_availability(id)#2363254
     response = self.class.get(@base_uri + "/mentors/#{id}/student_availability", headers: {"authorization": @auth_token}).body
     @mentor_avail = JSON.parse(response).to_a
-
-    puts_v(@mentor_avail)
   end
   
   def puts_v(array) 
     array.each do |v|
-      puts "@@@@@@@@@@@@@@@@@@@ #{v}"
+      if v.is_a?(Hash)
+        puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> v is a HASH"
+        puts_kv(v)
+      else
+        puts "@@@@@@@@@@@@@@@@@@@ #{v}"
+      end
     end
   end
   
@@ -39,6 +44,9 @@ include HTTParty
       if v.is_a?(Hash)
         puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> #{k} = "
         puts_kv(v)
+      elsif v.is_a?(Array)
+        puts "@@@@@@@@@>>>>>>@@@@@@@@@@@@>>>>>>>>>>>>@@@@@@@@@@ #{k}"
+        puts_v(v)
       else
         puts ">>>>>>>>>>>>>>>>>>> #{k} = #{v}"
       end
