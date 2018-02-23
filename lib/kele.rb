@@ -20,7 +20,7 @@ class Kele
     end
   end
   
-  def get_me
+  def get_me#2403813
     response = self.class.get(@base_uri + "/users/me", headers: {"authorization": @auth_token}).body
 
     return JSON.parse(response)
