@@ -1,14 +1,13 @@
 module Roadmap
-  def get_roadmap(id)#37
+  def get_roadmap(id)
     response = self.class.get(@base_uri + "/roadmaps/#{id}", headers: {"authorization": @auth_token}).body
-    ap JSON.parse(response)
 
-    return JSON.parse(response)
+    JSON.parse(response)
   end
   
-  def get_checkpoint(id)#2161/Messaging
+  def get_checkpoint(id)
     response = self.class.get(@base_uri + "/checkpoints/#{id}", headers: {"authorization": @auth_token}).body
 
-    return JSON.parse(response)
+    JSON.parse(response)
   end
 end
